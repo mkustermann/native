@@ -12,20 +12,21 @@
 ///
 /// The format should be consistent with `pkg/vm/lib/native_assets/` in the
 /// Dart SDK.
-library kernel_native_assets;
+library;
 
 import 'package:native_assets_cli/native_assets_cli_internal.dart';
 
 import '../utils/yaml.dart';
 
 class KernelAssets {
-  final List<KernelAsset> _assets;
+  final List<KernelCodeAsset> codeAssets;
+  final Object? embedderInfo;
 
-  KernelAssets([Iterable<KernelAsset>? assets]) : _assets = [...?assets];
+  KernelAssets({this.codeAssets = const [], this.embedderInfo});
 
   String toNativeAssetsFile() {
-    final assetsPerTarget = <Target, List<KernelAsset>>{};
-    for (final asset in _assets) {
+    final assetsPerTarget = <Target, List<KernelCodeAsset>>{};
+    for (final asset in codeAssets) {
       final assets = assetsPerTarget[asset.target] ?? [];
       assets.add(asset);
       assetsPerTarget[asset.target] = assets;
@@ -39,18 +40,19 @@ class KernelAssets {
             for (final e in entry.value) e.id: e.path.toJson(),
           }
       },
+      'embedder-info': embedderInfo,
     };
 
     return yamlEncode(yamlContents);
   }
 }
 
-class KernelAsset {
+class KernelCodeAsset {
   final String id;
   final Target target;
   final KernelAssetPath path;
 
-  KernelAsset({
+  KernelCodeAsset({
     required this.id,
     required this.target,
     required this.path,
@@ -58,7 +60,7 @@ class KernelAsset {
 }
 
 abstract class KernelAssetPath {
-  List<String> toJson();
+  Object toJson();
 }
 
 /// Asset at absolute path [uri] on the target device where Dart is run.

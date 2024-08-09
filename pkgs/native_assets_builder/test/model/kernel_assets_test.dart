@@ -14,38 +14,38 @@ void main() {
   final foo3Uri = Uri(path: 'libfoo3.so');
   final barUri = Uri(path: 'path/to/libbar.a');
   final blaUri = Uri(path: 'path/with spaces/bla.dll');
-  final assets = KernelAssets([
-    KernelAsset(
+  final assets = KernelAssets(codeAssets: [
+    KernelCodeAsset(
       id: 'foo',
       path: KernelAssetAbsolutePath(fooUri),
       target: Target.androidX64,
     ),
-    KernelAsset(
+    KernelCodeAsset(
       id: 'foo2',
       path: KernelAssetRelativePath(foo2Uri),
       target: Target.androidX64,
     ),
-    KernelAsset(
+    KernelCodeAsset(
       id: 'foo3',
       path: KernelAssetSystemPath(foo3Uri),
       target: Target.androidX64,
     ),
-    KernelAsset(
+    KernelCodeAsset(
       id: 'foo4',
       path: KernelAssetInExecutable(),
       target: Target.androidX64,
     ),
-    KernelAsset(
+    KernelCodeAsset(
       id: 'foo5',
       path: KernelAssetInProcess(),
       target: Target.androidX64,
     ),
-    KernelAsset(
+    KernelCodeAsset(
       id: 'bar',
       path: KernelAssetAbsolutePath(barUri),
       target: Target.linuxArm64,
     ),
-    KernelAsset(
+    KernelCodeAsset(
       id: 'bla',
       path: KernelAssetAbsolutePath(blaUri),
       target: Target.windowsX64,
